@@ -343,8 +343,9 @@ def startcomms(radio, direction):
     id_response_mod = bytes(ba_id_response)
 
     if id_response != radio.id_str:
-        substr0 = radio.id_str[:radio.id_str.find(b'\x00')]
-        if id_response[:id_response.find(b'\x00')] != substr0:
+        msg = radio.id_str
+        substr0 = radio.id_str.split(b'\x00',1)[0]
+        if id_response.split(b'\x00',1)[0] != substr0:
             msg = "ID mismatch. Expected" + util.hexprint(radio.id_str)
             msg += ", Received:" + util.hexprint(id_response_mod)
             LOG.warning(msg)
